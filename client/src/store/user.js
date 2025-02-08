@@ -1,5 +1,5 @@
 // stores/counter.js
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import userApi from '@/api/user'
 
 export const useUserStore = defineStore('user', {
@@ -9,7 +9,8 @@ export const useUserStore = defineStore('user', {
       username: '',
       email: '',
       createdAt: '',
-      id: ''
+      id: '',
+      avatarBgColor: '#323222'
     }
   },
   actions: {

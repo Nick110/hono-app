@@ -69,7 +69,7 @@ const handleCommand = async (command) => {
   border-radius: 6px;
   transition: all 0.3s;
   .avatar {
-    background-color: #409eff;
+    background: v-bind('userStore.avatarBgColor');
   }
 
   &:hover {

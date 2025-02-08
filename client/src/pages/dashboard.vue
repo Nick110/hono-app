@@ -18,7 +18,7 @@
         <div class="space-y-6">
           <div class="flex items-center space-x-4">
             <div
-              class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
+              class="avatar w-24 h-24 bg-gradient-to-r rounded-full flex items-center justify-center"
             >
               <span class="text-3xl font-bold text-white">
                 {{ userInfo.username?.[0]?.toUpperCase() }}
@@ -67,3 +67,9 @@ const updateUserInfo = () => {
   userInfo.getUserInfo()
 }
 </script>
+
+<style lang="scss" scoped>
+.avatar {
+  background: v-bind('userInfo.avatarBgColor');
+}
+</style>
