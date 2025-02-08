@@ -7,10 +7,10 @@
           class="avatar w-8 h-8 bg-gradient-to-r rounded-full flex items-center justify-center mr-2"
         >
           <span class="text-lg font-bold text-white">
-            {{ userInfo.username?.[0]?.toUpperCase() }}
+            {{ userStore.username?.[0]?.toUpperCase() }}
           </span>
         </div>
-        <span class="text-gray-700">{{ userInfo.username }}</span>
+        <span class="text-gray-700">{{ userStore.username }}</span>
         <el-icon class="ml-1"><ArrowDown /></el-icon>
       </div>
       <template #dropdown>
@@ -29,24 +29,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
-import userApi from '@/api/user'
-import authApi from '@/api/auth'
 import { logout } from '../../utils/auth'
+import { useUserStore } from '@/store/user'
+import { onBeforeMount } from 'vue'
+
+const userStore = useUserStore()
+
+onBeforeMount(() => {
+  userStore.getUserInfo()
+})
 
 const router = useRouter()
-const userInfo = ref({})
-
-// 获取用户信息
-const fetchUserInfo = async () => {
-  const res = await userApi.getUserInfo()
-  if (res.success) {
-    userInfo.value = res.data
-  }
-}
 
 // 处理下拉菜单命令
 const handleCommand = async (command) => {
@@ -56,10 +51,6 @@ const handleCommand = async (command) => {
     logout()
   }
 }
-
-onMounted(() => {
-  fetchUserInfo()
-})
 </script>
 
 <style lang="scss" scoped>

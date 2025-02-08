@@ -24,8 +24,7 @@ const userSchema = new mongoose.Schema(
       required: true
     },
     avatarBgColor: {
-      type: String,
-      required: true
+      type: String
     }
   },
   {
