@@ -1,11 +1,10 @@
 import request from './axios'
 
-// 用户认证相关 API
 const authApi = {
   // 用户登录
   login: (data) => {
     return request({
-      url: '/user/login',
+      url: '/auth/login',
       method: 'POST',
       data
     })
@@ -14,7 +13,15 @@ const authApi = {
   // 用户注册
   register: (data) => {
     return request({
-      url: '/user/register',
+      url: '/auth/register',
+      method: 'POST',
+      data
+    })
+  },
+
+  logout: (data) => {
+    return request({
+      url: '/auth/logout',
       method: 'POST',
       data
     })

@@ -1,14 +1,16 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
 
 // 创建 axios 实例
 const instance = axios.create({
-  baseURL: '/api',
-  timeout: 5000,
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
 })
+
+console.log('🛫 当前环境 ===', import.meta.env.MODE)
+console.log('🏈  baseURL ===', import.meta.env.VITE_BASE_URL)
 
 // 请求拦截器
 instance.interceptors.request.use(
@@ -29,20 +31,33 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    if (response.data?.code === 401) {
+      ElMessage({
+        type: 'error',
+        message: response.data?.message || '未授权，请重新登录'
+      })
+      localStorage.removeItem('token')
+      window.location.href = '/auth'
+      return Promise.reject(response.data)
+    }
     return response.data
   },
   (error) => {
     const { response } = error
     if (response) {
       // 根据状态码处理错误
+      // 处理 JWT 相关错误
+      if (response.status === 401) {
+        ElMessage({
+          type: 'error',
+          message: response.data?.message || '未授权，请重新登录'
+        })
+        localStorage.removeItem('token')
+        window.location.href = '/auth'
+        return Promise.reject(error)
+      }
+
       switch (response.status) {
-        case 401:
-          ElMessage({
-            type: 'error',
-            message: '未授权，请重新登录'
-          })
-          // 可以在这里处理登出逻辑
-          break
         case 403:
           ElMessage({
             type: 'error',

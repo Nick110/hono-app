@@ -52,10 +52,11 @@ export default defineConfig({
     open: true, // 设置服务启动时是否自动打开浏览器
     cors: true, // 允许跨域
     proxy: {
-      '/api': {
+      '/hono': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        rewrite: (path) => path.replace(/^\/hono/, '')
       }
     }
   }

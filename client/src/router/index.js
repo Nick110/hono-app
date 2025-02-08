@@ -2,14 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 export const routes = [
   {
-    path: '/auth',
-    component: () => import('@/pages/auth/login.vue'),
-    meta: {
-      title: '登录',
-      hideOnMenu: true
-    }
-  },
-  {
     path: '/',
     redirect: '/dashboard',
     meta: {
@@ -44,6 +36,14 @@ export const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/auth',
+    component: () => import('@/pages/auth/login.vue'),
+    meta: {
+      title: '登录',
+      hideOnMenu: true
+    }
   },
   {
     path: '/:pathMatch(.*)',
