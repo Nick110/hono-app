@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import Author from '../models/author.js'
+import { success, error } from '../utils/response.js'
 
 const authorRouter = new Hono()
 
@@ -22,15 +23,17 @@ authorRouter.post('/getAuthors', async (c) => {
       .skip((parseInt(pageNo) - 1) * parseInt(pageSize))
       .limit(parseInt(pageSize))
 
-    return c.json({
-      data: authors,
-      total,
-      pageNo: parseInt(pageNo),
-      pageSize: parseInt(pageSize)
-    })
+    return c.json(
+      success({
+        list: authors,
+        total,
+        pageNo: parseInt(pageNo),
+        pageSize: parseInt(pageSize)
+      })
+    )
   } catch (error) {
     console.error('获取作者列表错误:', error)
-    return c.json({ error: '获取作者列表失败', message: error.message }, 500)
+    return c.json(error('获取作者列表失败', 500))
   }
 })
 
